@@ -26,7 +26,6 @@ type snippetReq struct {
 type snippetResp struct {
 	URL       string `json:"url"`
 	Name      string `json:"name"`
-	Now       string `json:"now"`
 	ExpiresAt string `json:"expires_at"`
 	Snippet   string `json:"snippet"`
 }
