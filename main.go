@@ -15,19 +15,13 @@ import (
 var host string
 var port string
 var key string
-var mSResp map[string]snippetResp
+var mSResp map[string]snippet
 
-type snippetReq struct {
-	Name      string
-	ExpiresIn int
-	Snippet   string
-}
-
-type snippetResp struct {
-	URL       string `json:"url"`
-	Name      string `json:"name"`
-	ExpiresAt string `json:"expires_at"`
-	Snippet   string `json:"snippet"`
+type snippet struct {
+	URL     string `json:"url"`
+	Name    string `json:"name"`
+	Expires string `json:"expires_at"`
+	Snippet string `json:"snippet"`
 }
 
 func init() {
@@ -36,7 +30,7 @@ func init() {
 	port = os.Getenv("PORT")
 
 	key = "recipe"
-	mSResp = make(map[string]snippetResp)
+	mSResp = make(map[string]snippet)
 }
 
 func main() {
@@ -60,7 +54,7 @@ func snippetsHandler(w http.ResponseWriter, r *http.Request) {
 			// recipe snippet already exists
 
 			t1 := time.Now()
-			t2, err := time.Parse(time.RFC3339, s.ExpiresAt)
+			t2, err := time.Parse(time.RFC3339, s.Expires)
 			if err != nil {
 				http.Error(w, err.Error(), http.StatusInternalServerError)
 				return
@@ -86,7 +80,7 @@ func snippetsHandler(w http.ResponseWriter, r *http.Request) {
 	} else {
 		// /snippets route hit
 
-		var sReq snippetReq
+		var sReq snippet
 		err := json.NewDecoder(r.Body).Decode(&sReq)
 		if err != nil {
 			http.Error(w, err.Error(), http.StatusBadRequest)
@@ -96,11 +90,11 @@ func snippetsHandler(w http.ResponseWriter, r *http.Request) {
 		t1 := time.Now()
 		t2 := t1.Add(time.Second * 30)
 
-		sResp := snippetResp{
-			URL:       fmt.Sprintf("https://%s:%s/snippets/%s", host, port, sReq.Name),
-			Name:      sReq.Name,
-			ExpiresAt: t2.Format(time.RFC3339),
-			Snippet:   sReq.Snippet,
+		sResp := snippet{
+			URL:     fmt.Sprintf("https://%s:%s/snippets/%s", host, port, sReq.Name),
+			Name:    sReq.Name,
+			Expires: t2.Format(time.RFC3339),
+			Snippet: sReq.Snippet,
 		}
 
 		mSResp[sReq.Name] = sResp
