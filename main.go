@@ -15,7 +15,7 @@ import (
 var host string
 var port string
 var key string
-var mSResp map[string]snippet
+var mS map[string]snippet
 
 type snippet struct {
 	URL     string `json:"url"`
@@ -30,7 +30,7 @@ func init() {
 	port = os.Getenv("PORT")
 
 	key = "recipe"
-	mSResp = make(map[string]snippet)
+	mS = make(map[string]snippet)
 }
 
 func main() {
@@ -50,7 +50,7 @@ func snippetsHandler(w http.ResponseWriter, r *http.Request) {
 	if key, ok := vars[key]; ok {
 		// /snippets/{recipe} route hit
 
-		if s, ok := mSResp[key]; ok {
+		if s, ok := mS[key]; ok {
 			// recipe snippet already exists
 
 			t1 := time.Now()
@@ -91,13 +91,13 @@ func snippetsHandler(w http.ResponseWriter, r *http.Request) {
 		t2 := t1.Add(time.Second * 30)
 
 		sResp := snippet{
-			URL:     fmt.Sprintf("https://%s:%s/snippets/%s", host, port, sReq.Name),
+			URL:     fmt.Sprintf("http://%s:%s/snippets/%s", host, port, sReq.Name),
 			Name:    sReq.Name,
 			Expires: t2.Format(time.RFC3339),
 			Snippet: sReq.Snippet,
 		}
 
-		mSResp[sReq.Name] = sResp
+		mS[sReq.Name] = sResp
 
 		resp, err := json.Marshal(sResp)
 		if err != nil {
