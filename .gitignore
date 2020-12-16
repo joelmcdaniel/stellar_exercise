@@ -1,1 +1,3 @@
 stellar_exercise
+*.crt
+*.key
