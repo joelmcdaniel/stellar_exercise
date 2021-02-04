@@ -2,10 +2,10 @@
 
 What is this? 
 
-It's yet another interview coding challenge solution that I coded up in a jiffy. Below are the requirements given and there was no communicaton channel offered to ask any questions about them. Yes the challenge was timed with a very short deadline. A $100 Amazon gift card was offered.
+It's yet another interview coding challenge solution that I coded up in a jiffy in off hours. Below are the requirements given and there was no communicaton channel offered to ask any questions about them. Yes the challenge was timed with a very short deadline. A $100 Amazon gift card was offered. I have no idea what the grading criteria was as there was no discussion offered for review. It's certainly not my best Golang code under the circumstances but I think it pretty much achieved  "minimum viable product" for the requirements given. Perhaps the organization got a "free" solution out of it? It's here for anyone else who thinks they might make some use of it.
 
 ### This was the requirement given:
-
+ 
 
 # Stellar Coding Challenge
 
